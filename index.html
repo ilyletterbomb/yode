@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>i love u yode</title>
+  <link rel="icon" href="all-in.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 200% center; }
+      50% { background-position: -200% center; }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes softGlow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255,182,193,0.4)); }
+      50% { filter: drop-shadow(0 0 40px rgba(255,182,193,0.7)); }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      text-transform: lowercase;
+      position: relative;
+      overflow-x: hidden;
+      background: #000;
+      margin: 0;
+    }
+
+    .main-section {
+      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+    }
+
+    .bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      animation: scaleIn 1s ease-out both;
+    }
+
+    .bg img:nth-child(1) { animation-delay: 0.05s; }
+    .bg img:nth-child(2) { animation-delay: 0.1s; }
+    .bg img:nth-child(3) { animation-delay: 0.15s; }
+    .bg img:nth-child(4) { animation-delay: 0.2s; }
+    .bg img:nth-child(5) { animation-delay: 0.25s; }
+    .bg img:nth-child(6) { animation-delay: 0.3s; }
+    .bg img:nth-child(7) { animation-delay: 0.35s; }
+    .bg img:nth-child(8) { animation-delay: 0.4s; }
+    .bg img:nth-child(9) { animation-delay: 0.45s; }
+    .bg img:nth-child(10) { animation-delay: 0.5s; }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    .text {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(2.5rem, 10vw, 6rem);
+      font-weight: 600;
+      font-style: italic;
+      text-align: center;
+      padding: 1.5rem 2rem;
+      animation: fadeInUp 1s ease-out 0.4s both;
+      background: linear-gradient(
+        120deg,
+        #fff 0%,
+        #ffe4ec 25%,
+        #ffc8dd 50%,
+        #ffe4ec 75%,
+        #fff 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 0 25px rgba(255,182,193,0.5));
+      letter-spacing: 0.15em;
+      animation: fadeInUp 1s ease-out 0.4s both, gentleFloat 5s ease-in-out 2s infinite, softGlow 4s ease-in-out 2.5s infinite;
+    }
+
+    .audio-controls {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 2rem;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.8s ease-out 0.6s both;
+    }
+
+    .mute-btn {
+      width: 2rem;
+      height: 2rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffe4ec;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .mute-btn:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .mute-btn svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .volume-slider {
+      width: 80px;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffe4ec;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .volume-slider::-webkit-slider-thumb:hover {
+      background: #fff;
+      transform: scale(1.2);
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffe4ec;
+      cursor: pointer;
+      border: none;
+    }
+
+    .game-section {
+      min-height: 85vh;
+      width: 100vw;
+      position: relative;
+      background: linear-gradient(180deg, #87ceeb 0%, #e0f6ff 100%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+
+    .game-container {
+      position: relative;
+      height: 75vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .game-bird {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      position: absolute;
+      left: 25%;
+      z-index: 100;
+      box-shadow: 0 0 0 3px #000;
+    }
+
+    .game-section .pipe_sprite {
+      position: absolute;
+      left: 100%;
+      width: 90px;
+      background: linear-gradient(90deg, #228b22, #32cd32);
+      border: 3px solid #1a5f1a;
+      border-radius: 6px;
+    }
+
+    .game-section .pipe_sprite.pipe_top {
+      top: 0;
+      z-index: 49;
+    }
+
+    .game-section .pipe_sprite.pipe_bottom {
+      bottom: 0;
+      z-index: 51;
+    }
+
+    .game-message {
+      position: absolute;
+      z-index: 150;
+      font-size: clamp(1rem, 3.5vw, 1.35rem);
+      font-weight: 500;
+      color: #2d2d2d;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      padding: 1rem 1.5rem;
+      line-height: 1.6;
+      max-width: 90%;
+      text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 140;
+      background: rgba(135, 206, 235, 0.7);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      cursor: pointer;
+      transition: opacity 0.35s ease;
+    }
+
+    .game-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .game-overlay-content {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      max-width: 320px;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .game-overlay.visible .game-overlay-content {
+      transform: scale(1);
+      opacity: 1;
+      transition-delay: 0.1s;
+    }
+
+    .game-overlay-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-overlay-score {
+      font-size: 1.25rem;
+      color: #555;
+      margin-bottom: 0.25rem;
+    }
+
+    .game-overlay-score span {
+      font-weight: 700;
+      color: #c41e3a;
+      font-size: 1.5rem;
+    }
+
+    .game-overlay-hint {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 1.25rem;
+    }
+
+    .game-score {
+      position: absolute;
+      z-index: 150;
+      font-size: clamp(1.35rem, 4.5vw, 2.25rem);
+      font-weight: 700;
+      color: #1a1a1a;
+      top: 1.25rem;
+      left: 1.25rem;
+      background: rgba(255,255,255,0.85);
+      padding: 0.4rem 0.9rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .game-score .score_val {
+      color: #c41e3a;
+    }
+
+    .game-highscore {
+      position: absolute;
+      z-index: 150;
+      font-size: clamp(0.9rem, 3vw, 1.15rem);
+      font-weight: 600;
+      color: #2d5016;
+      top: 5rem;
+      left: 1.25rem;
+      background: rgba(255,255,255,0.85);
+      padding: 0.3rem 0.75rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .game-highscore span {
+      font-weight: 700;
+    }
+
+    .site-footer {
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: #000;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      font-family: inherit;
+      text-transform: lowercase;
+    }
+
+    .site-footer .copy-address {
+      cursor: pointer;
+      color: #ffe4ec;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .site-footer .copy-address:hover {
+      color: #fff;
+    }
+
+    .site-footer .copy-address.copied {
+      color: #90ee90;
+    }
+
+    .scroll-arrow {
+      position: absolute;
+      bottom: 2rem;
+      text-decoration: none;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      animation: fadeIn 1s ease-out 2s both;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .scroll-arrow:hover {
+      color: #fff;
+      transform: translateX(-50%) translateY(4px);
+    }
+
+    .scroll-arrow svg {
+      width: 32px;
+      height: 32px;
+    }
+  </style>
+</head>
+<body>
+  <section class="main-section">
+  <div class="bg">
+    <img src="all-in.png" alt="">
+    <img src="IMG_6903.jpg" alt="">
+    <img src="IMG_7056.jpg" alt="">
+    <img src="IMG_7156.jpg" alt="">
+    <img src="IMG_7229.jpg" alt="">
+    <img src="screenshot1.png" alt="">
+    <img src="screenshot2.png" alt="">
+    <img src="screenshot3.png" alt="">
+    <img src="yodefv.webp" alt="">
+    <img src="paragraph.png" alt="">
+  </div>
+  <div class="overlay"></div>
+  <h1 class="text">i love u yode</h1>
+  <a href="#game" class="scroll-arrow" id="scrollArrow" aria-label="scroll to game">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+  </a>
+  </section>
+
+  <section class="game-section" id="game">
+    <div class="game-container" id="gameContainer">
+      <img class="game-bird" id="gameBird" src="all-in.png" alt="bird">
+      <div class="game-message" id="gameMessage">click or press space to start</div>
+      <div class="game-overlay" id="gameOverlay">
+        <div class="game-overlay-content">
+          <div class="game-overlay-title">you lost</div>
+          <div class="game-overlay-score">score: <span id="gameOverScore">0</span></div>
+          <div class="game-overlay-hint">click or press space to play again</div>
+        </div>
+      </div>
+      <div class="game-score">
+        <span class="score_title" id="scoreTitle"></span>
+        <span class="score_val" id="scoreVal"></span>
+      </div>
+      <div class="game-highscore" id="gameHighscore">best: <span id="highscoreVal">0</span></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    im broke btw if u wanna help: <span class="copy-address" id="copyAddress" title="click to copy">FPnW8xgm9urcoEUq6dtDgZugms3N53G7GJTuuzvbvDXt</span>
+  </footer>
+
+  <div class="audio-controls">
+    <button class="mute-btn" id="muteBtn" aria-label="mute">
+      <svg id="volumeIcon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+      <svg id="muteIcon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+      </svg>
+    </button>
+    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" aria-label="volume">
+  </div>
+
+  <audio id="bgMusic" preload="auto" playsinline></audio>
+
+  <script>
+    (function() {
+      const audio = document.getElementById('bgMusic');
+      const muteBtn = document.getElementById('muteBtn');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const volumeIcon = document.getElementById('volumeIcon');
+      const muteIcon = document.getElementById('muteIcon');
+      audio.src = encodeURI('حسين الجسمي - بشرة خير (فيديو كليب)  Hussain Al Jassmi - Boshret Kheir  2014.mp3');
+
+      window.startGameMusic = function() {
+        audio.currentTime = 24;
+        audio.play().catch(function() {});
+      };
+
+      window.stopGameMusic = function() {
+        audio.pause();
+      };
+
+      audio.addEventListener('ended', function() {
+        if (audio.currentTime > 0) {
+          audio.currentTime = 24;
+          audio.play().catch(function() {});
+        }
+      });
+
+      muteBtn.addEventListener('click', function() {
+        audio.muted = !audio.muted;
+        volumeIcon.style.display = audio.muted ? 'none' : 'block';
+        muteIcon.style.display = audio.muted ? 'block' : 'none';
+      });
+
+      document.getElementById('scrollArrow').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('game').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      document.getElementById('copyAddress').addEventListener('click', function() {
+        const addr = 'FPnW8xgm9urcoEUq6dtDgZugms3N53G7GJTuuzvbvDXt';
+        navigator.clipboard.writeText(addr).then(function() {
+          const el = document.getElementById('copyAddress');
+          el.classList.add('copied');
+          el.textContent = 'copied!';
+          setTimeout(function() {
+            el.classList.remove('copied');
+            el.textContent = addr;
+          }, 1500);
+        });
+      });
+
+      volumeSlider.addEventListener('input', function() {
+        audio.volume = this.value / 100;
+        if (this.value > 0 && audio.muted) {
+          audio.muted = false;
+          volumeIcon.style.display = 'block';
+          muteIcon.style.display = 'none';
+        }
+      });
+    })();
+
+    (function game() {
+      const MOVE_SPEED = 3;
+      const GRAVITY = 0.4;
+      const FLAP = -7;
+      const PIPE_GAP = 350;
+      const PIPE_WIDTH = 90;
+      const MIN_PIPE_DISTANCE = 340;
+
+      let gameState = 'Start';
+      let birdY = 0;
+      let birdDy = 0;
+      let moveId, gravityId, pipeId;
+
+      const bird = document.getElementById('gameBird');
+      const gameContainer = document.getElementById('gameContainer');
+      const gameSection = document.querySelector('.game-section');
+      const scoreVal = document.getElementById('scoreVal');
+      const scoreTitle = document.getElementById('scoreTitle');
+      const message = document.getElementById('gameMessage');
+      const gameOverlay = document.getElementById('gameOverlay');
+      const gameOverScore = document.getElementById('gameOverScore');
+      const highscoreVal = document.getElementById('highscoreVal');
+      const HIGHSCORE_KEY = 'yode_flappy_highscore';
+
+      function getHighscore() {
+        return parseInt(localStorage.getItem(HIGHSCORE_KEY) || '0', 10);
+      }
+
+      function setHighscore(val) {
+        localStorage.setItem(HIGHSCORE_KEY, String(val));
+        highscoreVal.textContent = val;
+      }
+
+      highscoreVal.textContent = getHighscore();
+
+      function isGameInView() {
+        const rect = gameSection.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+      }
+
+      function initGame() {
+        birdY = gameContainer.offsetHeight / 2 - 30;
+        bird.style.top = birdY + 'px';
+        bird.style.left = '25%';
+        birdDy = 0;
+      }
+
+      function startGame() {
+        if (!isGameInView()) return;
+        gameContainer.querySelectorAll('.pipe_sprite').forEach(el => el.remove());
+        initGame();
+        gameState = 'Play';
+        message.innerHTML = '';
+        gameOverlay.classList.remove('visible');
+        scoreTitle.innerHTML = 'score : ';
+        scoreVal.innerHTML = '0';
+        highscoreVal.textContent = getHighscore();
+        if (window.startGameMusic) window.startGameMusic();
+        runGame();
+      }
+
+      function endGame() {
+        gameState = 'End';
+        const finalScore = parseInt(scoreVal.innerHTML || '0', 10);
+        const highscore = getHighscore();
+        if (finalScore > highscore) setHighscore(finalScore);
+        gameOverScore.textContent = finalScore;
+        gameOverlay.classList.add('visible');
+        if (window.stopGameMusic) window.stopGameMusic();
+        cancelAnimationFrame(moveId);
+        cancelAnimationFrame(gravityId);
+        cancelAnimationFrame(pipeId);
+      }
+
+      function flap() {
+        if (gameState === 'Play') birdDy = FLAP;
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if ((e.key === 'Enter' || e.key === ' ') && (gameState === 'Start' || gameState === 'End') && isGameInView()) {
+          e.preventDefault();
+          startGame();
+        } else if ((e.key === 'ArrowUp' || e.key === ' ') && gameState === 'Play') {
+          e.preventDefault();
+          flap();
+        }
+      });
+
+      gameSection.addEventListener('click', function(e) {
+        if ((gameState === 'Start' || gameState === 'End') && isGameInView()) {
+          e.preventDefault();
+          startGame();
+        } else if (gameState === 'Play' && isGameInView()) {
+          flap();
+        }
+      });
+      gameSection.addEventListener('touchend', function(e) {
+        if ((gameState === 'Start' || gameState === 'End') && isGameInView()) {
+          e.preventDefault();
+          startGame();
+        } else if (gameState === 'Play' && isGameInView()) {
+          e.preventDefault();
+          flap();
+        }
+      }, { passive: false });
+
+      function runGame() {
+        function movePipes() {
+          if (gameState !== 'Play') return;
+          if (!isGameInView()) { moveId = requestAnimationFrame(movePipes); return; }
+
+          const pipes = gameContainer.querySelectorAll('.pipe_sprite');
+          const birdRect = bird.getBoundingClientRect();
+          const containerRect = gameContainer.getBoundingClientRect();
+
+          pipes.forEach(function(pipe) {
+            let pipeX = parseFloat(pipe.dataset.x) || containerRect.width;
+            pipeX -= MOVE_SPEED;
+            pipe.dataset.x = pipeX;
+            pipe.style.left = pipeX + 'px';
+
+            if (pipeX + PIPE_WIDTH < 0) {
+              pipe.remove();
+              return;
+            }
+
+            const pipeRect = pipe.getBoundingClientRect();
+
+            if (birdRect.right > pipeRect.left && birdRect.left < pipeRect.right &&
+                birdRect.top < pipeRect.bottom && birdRect.bottom > pipeRect.top) {
+              endGame();
+            }
+
+            if (pipe.classList.contains('pipe_bottom') && pipe.dataset.scored !== '1' && pipeRect.right < birdRect.left) {
+              pipe.dataset.scored = '1';
+              const newScore = parseInt(scoreVal.innerHTML || 0, 10) + 1;
+              scoreVal.innerHTML = newScore;
+              if (newScore > getHighscore()) setHighscore(newScore);
+            }
+          });
+
+          moveId = requestAnimationFrame(movePipes);
+        }
+
+        function applyGravity() {
+          if (gameState !== 'Play') return;
+          if (!isGameInView()) { gravityId = requestAnimationFrame(applyGravity); return; }
+
+          birdDy += GRAVITY;
+          birdY += birdDy;
+          const containerHeight = gameContainer.offsetHeight;
+
+          if (birdY < 0) birdY = 0;
+          if (birdY + 60 > containerHeight) birdY = containerHeight - 60;
+
+          bird.style.top = birdY + 'px';
+          gravityId = requestAnimationFrame(applyGravity);
+        }
+
+        function createPipes() {
+          if (gameState !== 'Play') return;
+          if (!isGameInView()) { pipeId = requestAnimationFrame(createPipes); return; }
+
+          const containerWidth = gameContainer.offsetWidth || window.innerWidth;
+          const containerHeight = gameContainer.offsetHeight || window.innerHeight;
+          const existingPipes = gameContainer.querySelectorAll('.pipe_sprite');
+          let rightmostEdge = 0;
+          existingPipes.forEach(function(p) {
+            const px = parseFloat(p.dataset.x) || 0;
+            rightmostEdge = Math.max(rightmostEdge, px + PIPE_WIDTH);
+          });
+          const spawnX = containerWidth + 50;
+
+          if (rightmostEdge < spawnX - MIN_PIPE_DISTANCE || existingPipes.length === 0) {
+            const gapCenter = 0.38 + Math.random() * 0.24;
+            const gapCenterY = containerHeight * gapCenter;
+            const gapTopY = Math.max(20, Math.min(containerHeight - PIPE_GAP - 20, gapCenterY - PIPE_GAP / 2));
+            const gapBottomY = gapTopY + PIPE_GAP;
+
+            const pipeTop = document.createElement('div');
+            pipeTop.className = 'pipe_sprite pipe_top';
+            pipeTop.style.cssText = 'left:' + spawnX + 'px;height:' + gapTopY + 'px;top:0;';
+            pipeTop.dataset.x = String(spawnX);
+            gameContainer.appendChild(pipeTop);
+
+            const pipeBottom = document.createElement('div');
+            pipeBottom.className = 'pipe_sprite pipe_bottom';
+            pipeBottom.style.cssText = 'left:' + spawnX + 'px;height:' + Math.max(20, containerHeight - gapBottomY) + 'px;bottom:0;';
+            pipeBottom.dataset.x = String(spawnX);
+            pipeBottom.dataset.scored = '0';
+            gameContainer.appendChild(pipeBottom);
+          }
+
+          pipeId = requestAnimationFrame(createPipes);
+        }
+
+        birdY = gameContainer.offsetHeight / 2 - 30;
+        bird.style.top = birdY + 'px';
+        movePipes();
+        applyGravity();
+        createPipes();
+      }
+    })();
+  </script>
+</body>
+</html>
